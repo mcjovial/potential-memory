@@ -180,6 +180,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         ZanySoft\Zip\ZipServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
     /*

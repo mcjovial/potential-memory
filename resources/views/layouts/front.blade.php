@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -103,46 +102,43 @@
 	@yield('styles')
 
 </head>
-
 <body>
-<!-- {{dd(asset('assets'))}} -->
-@if($gs->is_loader == 1)
-	<div class="preloader" id="preloader" style="background: url({{asset('assets/images/'.$gs->loader)}}) no-repeat scroll center center #FFF;"></div>
+
+    @if($gs->is_loader == 1)
+	    <div class="preloader" id="preloader" style="background: url({{asset('assets/images/'.$gs->loader)}}) no-repeat scroll center center #FFF;"></div>
 	@endif
 	<div class="xloader d-none" id="xloader" style="background: url({{asset('assets/front/images/xloading.gif')}}) no-repeat scroll center center #FFF;"></div>
 
-@if($gs->is_popup== 1)
+    @if($gs->is_popup== 1)
 
-@if(isset($visited))
-    <div style="display:none">
-        <img src="{{asset('assets/images/'.$gs->popup_background)}}">
-    </div>
-
-    <!--  Starting of subscribe-pre-loader Area   -->
-    <div class="subscribe-preloader-wrap" id="subscriptionForm" style="display: none;">
-        <div class="subscribePreloader__thumb" style="background-image: url({{asset('assets/images/'.$gs->popup_background)}});">
-            <span class="preload-close"><i class="fas fa-times"></i></span>
-            <div class="subscribePreloader__text text-center">
-                <h1>{{$gs->popup_title}}</h1>
-                <p>{{$gs->popup_text}}</p>
-                <form action="{{route('front.subscribe')}}" id="subscribeform" method="POST">
-                    {{csrf_field()}}
-                    <div class="form-group">
-                        <input type="email" name="email"  placeholder="{{ $langg->lang741 }}" required="">
-                        <button id="sub-btn" type="submit">{{ $langg->lang742 }}</button>
-                    </div>
-                </form>
+        @if(isset($visited))
+            <div style="display:none">
+                <img src="{{asset('assets/images/'.$gs->popup_background)}}">
             </div>
-        </div>
-    </div>
-    <!--  Ending of subscribe-pre-loader Area   -->
 
-@endif
+            <!--  Starting of subscribe-pre-loader Area   -->
+            <div class="subscribe-preloader-wrap" id="subscriptionForm" style="display: none;">
+                <div class="subscribePreloader__thumb" style="background-image: url({{asset('assets/images/'.$gs->popup_background)}});">
+                    <span class="preload-close"><i class="fas fa-times"></i></span>
+                    <div class="subscribePreloader__text text-center">
+                        <h1>{{$gs->popup_title}}</h1>
+                        <p>{{$gs->popup_text}}</p>
+                        <form action="{{route('front.subscribe')}}" id="subscribeform" method="POST">
+                            {{csrf_field()}}
+                            <div class="form-group">
+                                <input type="email" name="email"  placeholder="{{ $langg->lang741 }}" required="">
+                                <button id="sub-btn" type="submit">{{ $langg->lang742 }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--  Ending of subscribe-pre-loader Area   -->
+        @endif
 
-@endif
+    @endif
 
-
-	<section class="top-header">
+    <section class="top-header">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 remove-padding">
@@ -150,35 +146,31 @@
 						<div class="left-content">
 							<div class="list">
 								<ul>
-
-
 									@if($gs->is_language == 1)
-									<li>
-										<div class="language-selector">
-											<i class="fas fa-globe-americas"></i>
-											<select name="language" class="language selectors nice">
-										@foreach(DB::table('languages')->get() as $language)
-											<option value="{{route('front.language',$language->id)}}" {{ Session::has('language') ? ( Session::get('language') == $language->id ? 'selected' : '' ) : ( $language->is_default == 1 ? 'selected' : '') }} >{{$language->language}}</option>
-										@endforeach
-											</select>
-										</div>
-									</li>
+                                        <li>
+                                            <div class="language-selector">
+                                                <i class="fas fa-globe-americas"></i>
+                                                <select name="language" class="language selectors nice">
+                                                @foreach(DB::table('languages')->get() as $language)
+                                                    <option value="{{route('front.language',$language->id)}}" {{ Session::has('language') ? ( Session::get('language') == $language->id ? 'selected' : '' ) : ( $language->is_default == 1 ? 'selected' : '') }} >{{$language->language}}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
+                                        </li>
 									@endif
 
 									@if($gs->is_currency == 1)
-									<li>
-										<div class="currency-selector">
-								<span>{{ Session::has('currency') ?   DB::table('currencies')->where('id','=',Session::get('currency'))->first()->sign   : DB::table('currencies')->where('is_default','=',1)->first()->sign }}</span>
-										<select name="currency" class="currency selectors nice">
-										@foreach(DB::table('currencies')->get() as $currency)
-											<option value="{{route('front.currency',$currency->id)}}" {{ Session::has('currency') ? ( Session::get('currency') == $currency->id ? 'selected' : '' ) : ( $currency->is_default == 1 ? 'selected' : '') }} >{{$currency->name}}</option>
-										@endforeach
-										</select>
-										</div>
-									</li>
+                                        <li>
+                                            <div class="currency-selector">
+                                            <span>{{ Session::has('currency') ?   DB::table('currencies')->where('id','=',Session::get('currency'))->first()->sign   : DB::table('currencies')->where('is_default','=',1)->first()->sign }}</span>
+                                            <select name="currency" class="currency selectors nice">
+                                            @foreach(DB::table('currencies')->get() as $currency)
+                                                <option value="{{route('front.currency',$currency->id)}}" {{ Session::has('currency') ? ( Session::get('currency') == $currency->id ? 'selected' : '' ) : ( $currency->is_default == 1 ? 'selected' : '') }} >{{$currency->name}}</option>
+                                            @endforeach
+                                            </select>
+                                            </div>
+                                        </li>
 									@endif
-
-
 								</ul>
 							</div>
 						</div>
@@ -186,14 +178,14 @@
 							<div class="list">
 								<ul>
 									@if(!Auth::guard('web')->check())
-									<li class="login">
-										<a href="{{ route('user.login') }}" class="sign-log">
-											<div class="links">
-												<span class="sign-in">{{ $langg->lang12 }}</span> <span>|</span>
-												<span class="join">{{ $langg->lang13 }}</span>
-											</div>
-										</a>
-									</li>
+                                        <li class="login">
+                                            <a href="{{ route('user.login') }}" class="sign-log">
+                                                <div class="links">
+                                                    <span class="sign-in">{{ $langg->lang12 }}</span> <span>|</span>
+                                                    <span class="join">{{ $langg->lang13 }}</span>
+                                                </div>
+                                            </a>
+                                        </li>
 									@else
 										<li class="profilearea my-dropdown">
 											<a href="javascript: ;" id="profile-icon" class="profile carticon">
@@ -207,9 +199,9 @@
 														<a href="{{ route('user-dashboard') }}"><i class="fas fa-angle-double-right"></i> {{ $langg->lang221 }}</a>
 													</li>
 													@if(Auth::user()->IsVendor())
-													<li>
-														<a href="{{ route('vendor-dashboard') }}"><i class="fas fa-angle-double-right"></i> {{ $langg->lang222 }}</a>
-													</li>
+                                                        <li>
+                                                            <a href="{{ route('vendor-dashboard') }}"><i class="fas fa-angle-double-right"></i> {{ $langg->lang222 }}</a>
+                                                        </li>
 													@endif
 
 													<li>
@@ -226,22 +218,20 @@
 
 
                         			@if($gs->reg_vendor == 1)
-										<li>
-                        				@if(Auth::check())
-	                        				@if(Auth::guard('web')->user()->is_vendor == 2)
-	                        					<a href="{{ route('vendor-dashboard') }}" class="sell-btn">{{ $langg->lang220 }}</a>
-	                        				@else
-	                        					<a href="{{ route('user-package') }}" class="sell-btn">{{ $langg->lang220 }}</a>
-	                        				@endif
-										</li>
-                        				@else
-										<li>
-											<a href="javascript:;" data-toggle="modal" data-target="#vendor-login" class="sell-btn">{{ $langg->lang220 }}</a>
-										</li>
+                                        @if(Auth::check())
+                                            <li>
+                                                @if(Auth::guard('web')->user()->is_vendor == 2)
+                                                    <a href="{{ route('vendor-dashboard') }}" class="sell-btn">{{ $langg->lang220 }}</a>
+                                                @else
+                                                    <a href="{{ route('user-package') }}" class="sell-btn">{{ $langg->lang220 }}</a>
+                                                @endif
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="javascript:;" data-toggle="modal" data-target="#vendor-login" class="sell-btn">{{ $langg->lang220 }}</a>
+                                            </li>
 										@endif
 									@endif
-
-
 								</ul>
 							</div>
 						</div>
@@ -252,7 +242,7 @@
 	</section>
 	<!-- Top Header Area End -->
 
-	<!-- Logo Header Area Start -->
+    <!-- Logo Header Area Start -->
 	<section class="logo-header">
 		<div class="container">
 			<div class="row ">
@@ -270,7 +260,7 @@
 								<select name="category" id="category_select" class="categoris">
 									<option value="">{{ $langg->lang1 }}</option>
 									@foreach($categories as $data)
-									<option value="{{ $data->slug }}" {{ Request::route('category') == $data->slug ? 'selected' : '' }}>{{ $data->name }}</option>
+									    <option value="{{ $data->slug }}" {{ Request::route('category') == $data->slug ? 'selected' : '' }}>{{ $data->name }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -341,7 +331,7 @@
 	</section>
 	<!-- Logo Header Area End -->
 
-	<!--Main-Menu Area Start-->
+    <!--Main-Menu Area Start-->
 	<div class="mainmenu-area mainmenu-bb">
 		<div class="container">
 			<div class="row align-items-center mainmenu-area-innner">
@@ -353,64 +343,57 @@
 						</div>
 						<div class="categories_menu_inner">
 							<ul>
-
 								@foreach($categories as $category)
+                                    <li class="{{count($category->subs) > 0 ? 'dropdown_list':''}} {{ $loop->index >= 14 ? 'rx-child' : '' }}">
+                                        @if(count($category->subs) > 0)
+                                            <div class="img">
+                                                <img src="{{ asset('assets/images/categories/'.$category->photo) }}" alt="">
+                                            </div>
+                                            <div class="link-area">
+                                                <span><a href="{{ route('front.category',$category->slug) }}">{{ $category->name }}</a></span>
+                                                <a href="javascript:;">
+                                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        @else
+                                            <a href="{{ route('front.category',$category->slug) }}"><img src="{{ asset('assets/images/categories/'.$category->photo) }}"> {{ $category->name }}</a>
 
-								<li class="{{count($category->subs) > 0 ? 'dropdown_list':''}} {{ $loop->index >= 14 ? 'rx-child' : '' }}">
-								@if(count($category->subs) > 0)
-									<div class="img">
-										<img src="{{ asset('assets/images/categories/'.$category->photo) }}" alt="">
-									</div>
-									<div class="link-area">
-										<span><a href="{{ route('front.category',$category->slug) }}">{{ $category->name }}</a></span>
-										<a href="javascript:;">
-											<i class="fa fa-angle-right" aria-hidden="true"></i>
-										</a>
-									</div>
+                                        @endif
+                                            
+                                        @if(count($category->subs) > 0)
 
-								@else
-									<a href="{{ route('front.category',$category->slug) }}"><img src="{{ asset('assets/images/categories/'.$category->photo) }}"> {{ $category->name }}</a>
+                                            <ul class="{{ $category->subs()->withCount('childs')->get()->sum('childs_count') > 0 ? 'categories_mega_menu' : 'categories_mega_menu column_1' }}" style="overflow-y: scroll; max-height:700px;">
+                                                @foreach($category->subs()->whereStatus(1)->get() as $subcat)
+                                                    <li>
+                                                        <a href="{{ route('front.subcat',['slug1' => $category->slug, 'slug2' => $subcat->slug]) }}">{{$subcat->name}}</a>
+                                                        @if(count($subcat->childs) > 0)
+                                                            <div class="categorie_sub_menu">
+                                                                <ul>
+                                                                    @foreach($subcat->childs()->whereStatus(1)->get() as $childcat)
+                                                                    <li><a href="{{ route('front.childcat',['slug1' => $category->slug, 'slug2' => $subcat->slug, 'slug3' => $childcat->slug]) }}">{{$childcat->name}}</a></li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </li>
 
-								@endif
-									@if(count($category->subs) > 0)
-
-
-									<ul class="{{ $category->subs()->withCount('childs')->get()->sum('childs_count') > 0 ? 'categories_mega_menu' : 'categories_mega_menu column_1' }}" style="overflow-y: scroll; max-height:700px;">
-										@foreach($category->subs()->whereStatus(1)->get() as $subcat)
-											<li>
-												<a href="{{ route('front.subcat',['slug1' => $category->slug, 'slug2' => $subcat->slug]) }}">{{$subcat->name}}</a>
-												@if(count($subcat->childs) > 0)
-													<div class="categorie_sub_menu">
-														<ul>
-															@foreach($subcat->childs()->whereStatus(1)->get() as $childcat)
-															<li><a href="{{ route('front.childcat',['slug1' => $category->slug, 'slug2' => $subcat->slug, 'slug3' => $childcat->slug]) }}">{{$childcat->name}}</a></li>
-															@endforeach
-														</ul>
-													</div>
-												@endif
-											</li>
-										@endforeach
-									</ul>
-
-									@endif
-
-									</li>
-
-									@if($loop->index == 14)
-						                <li>
-						                <a href="{{ route('front.categories') }}"><i class="fas fa-plus"></i> {{ $langg->lang15 }} </a>
-						                </li>
-						                @break
-									@endif
-
-
-									@endforeach
-
+                                    @if($loop->index == 14)
+                                        <li>
+                                            <a href="{{ route('front.categories') }}"><i class="fas fa-plus"></i> {{ $langg->lang15 }} </a>
+                                        </li>
+                                        @break
+                                    @endif
+								@endforeach
 							</ul>
 						</div>
 					</div>
-					<!--categorie menu end-->
+					<!--categories menu end-->
 				</div>
+
 				<div class="col-lg-9 col-md-6 mainmenu-wrapper remove-padding">
 					<nav hidden>
 						<div class="nav-header">
@@ -436,7 +419,6 @@
 								<a href="javascript:;" data-toggle="modal" data-target="#track-order-modal" class="track-btn">{{ $langg->lang16 }}</a>
 							</li>
 						</ul>
-
 					</nav>
 				</div>
 			</div>
@@ -444,9 +426,15 @@
 	</div>
 	<!--Main-Menu Area End-->
 
-@yield('content')
 
-	<!-- Footer Area Start -->
+    
+    <!--Content Area Start-->
+    @yield('content')
+    <!--Content Area End-->
+
+
+
+    <!-- Footer Area Start -->
 	<footer class="footer" id="footer">
 		<div class="container">
 			<div class="row">
@@ -465,55 +453,53 @@
 					</div>
 					<div class="fotter-social-links">
 						<ul>
+                            @if($socialsetting->f_status == 1)
+                                <li>
+                                    <a href="{{ $socialsetting->facebook }}" class="facebook" target="_blank">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                            @endif
 
-                               	     @if($socialsetting->f_status == 1)
-                                      <li>
-                                        <a href="{{ $socialsetting->facebook }}" class="facebook" target="_blank">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </a>
-                                      </li>
-                                      @endif
+                            @if($socialsetting->g_status == 1)
+                                <li>
+                                    <a href="{{ $socialsetting->gplus }}" class="google-plus" target="_blank">
+                                        <i class="fab fa-google-plus-g"></i>
+                                    </a>
+                                </li>
+                            @endif
 
-                                      @if($socialsetting->g_status == 1)
-                                      <li>
-                                        <a href="{{ $socialsetting->gplus }}" class="google-plus" target="_blank">
-                                            <i class="fab fa-google-plus-g"></i>
-                                        </a>
-                                      </li>
-                                      @endif
+                            @if($socialsetting->t_status == 1)
+                                <li>
+                                    <a href="{{ $socialsetting->twitter }}" class="twitter" target="_blank">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </li>
+                            @endif
 
-                                      @if($socialsetting->t_status == 1)
-                                      <li>
-                                        <a href="{{ $socialsetting->twitter }}" class="twitter" target="_blank">
-                                            <i class="fab fa-twitter"></i>
-                                        </a>
-                                      </li>
-                                      @endif
+                            @if($socialsetting->l_status == 1)
+                                <li>
+                                    <a href="{{ $socialsetting->linkedin }}" class="linkedin" target="_blank">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </li>
+                            @endif
 
-                                      @if($socialsetting->l_status == 1)
-                                      <li>
-                                        <a href="{{ $socialsetting->linkedin }}" class="linkedin" target="_blank">
-                                            <i class="fab fa-linkedin-in"></i>
-                                        </a>
-                                      </li>
-                                      @endif
-
-                                      @if($socialsetting->d_status == 1)
-                                      <li>
-                                        <a href="{{ $socialsetting->dribble }}" class="dribbble" target="_blank">
-                                            <i class="fab fa-dribbble"></i>
-                                        </a>
-                                      </li>
-                                      @endif
-
+                            @if($socialsetting->d_status == 1)
+                                <li>
+                                    <a href="{{ $socialsetting->dribble }}" class="dribbble" target="_blank">
+                                        <i class="fab fa-dribbble"></i>
+                                    </a>
+                                </li>
+                            @endif
 						</ul>
 					</div>
 				</div>
-				@include('cookieConsent::index')
+				{{--@include('cookieConsent::index')--}}
 				<div class="col-md-6 col-lg-4">
 					<div class="footer-widget info-link-widget">
 						<h4 class="title">
-								{{ $langg->lang21 }}
+							{{ $langg->lang21 }}
 						</h4>
 						<ul class="link-list">
 							<li>
@@ -523,11 +509,11 @@
 							</li>
 
 							@foreach(DB::table('pages')->where('footer','=',1)->get() as $data)
-							<li>
-								<a href="{{ route('front.page',$data->slug) }}">
-									<i class="fas fa-angle-double-right"></i>{{ $data->title }}
-								</a>
-							</li>
+                                <li>
+                                    <a href="{{ route('front.page',$data->slug) }}">
+                                        <i class="fas fa-angle-double-right"></i>{{ $data->title }}
+                                    </a>
+                                </li>
 							@endforeach
 
 							<li>
@@ -573,9 +559,9 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
-							<div class="content">
-								<div class="content">
-									<p>{!! $gs->copyright !!}</p>
+                        <div class="content">
+                            <div class="content">
+                                <p>{!! $gs->copyright !!}</p>
 							</div>
 						</div>
 					</div>
@@ -585,13 +571,14 @@
 	</footer>
 	<!-- Footer Area End -->
 
-	<!-- Back to Top Start -->
+    <!-- Back to Top Start -->
 	<div class="bottomtotop">
 		<i class="fas fa-chevron-right"></i>
 	</div>
 	<!-- Back to Top End -->
 
-	<!-- LOGIN MODAL -->
+
+    <!-- LOGIN MODAL -->
 	<div class="modal fade" id="comment-log-reg" tabindex="-1" role="dialog" aria-labelledby="comment-log-reg-Title"
 		aria-hidden="true">
 		<div class="modal-dialog  modal-dialog-centered" role="document">
@@ -759,8 +746,7 @@
 	<!-- LOGIN MODAL ENDS -->
 
 	<!-- FORGOT MODAL -->
-	<div class="modal fade" id="forgot-modal" tabindex="-1" role="dialog" aria-labelledby="comment-log-reg-Title"
-		aria-hidden="true">
+	<div class="modal fade" id="forgot-modal" tabindex="-1" role="dialog" aria-labelledby="comment-log-reg-Title" aria-hidden="true">
 		<div class="modal-dialog  modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -801,294 +787,258 @@
 	</div>
 	<!-- FORGOT MODAL ENDS -->
 
-
-<!-- VENDOR LOGIN MODAL -->
-	<div class="modal fade" id="vendor-login" tabindex="-1" role="dialog" aria-labelledby="vendor-login-Title" aria-hidden="true">
-  <div class="modal-dialog  modal-dialog-centered" style="transition: .5s;" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-				<nav class="comment-log-reg-tabmenu">
-					<div class="nav nav-tabs" id="nav-tab1" role="tablist">
-						<a class="nav-item nav-link login active" id="nav-log-tab11" data-toggle="tab" href="#nav-log11" role="tab" aria-controls="nav-log" aria-selected="true">
-							{{ $langg->lang234 }}
-						</a>
-						<a class="nav-item nav-link" id="nav-reg-tab11" data-toggle="tab" href="#nav-reg11" role="tab" aria-controls="nav-reg" aria-selected="false">
-							{{ $langg->lang235 }}
-						</a>
-					</div>
-				</nav>
-				<div class="tab-content" id="nav-tabContent">
-					<div class="tab-pane fade show active" id="nav-log11" role="tabpanel" aria-labelledby="nav-log-tab">
-				        <div class="login-area">
-				          <div class="login-form signin-form">
-				                @include('includes.admin.form-login')
-				            <form class="mloginform" action="{{ route('user.login.submit') }}" method="POST">
-				              {{ csrf_field() }}
-				              <div class="form-input">
-				                <input type="email" name="email" placeholder="{{ $langg->lang173 }}" required="">
-				                <i class="icofont-user-alt-5"></i>
-				              </div>
-				              <div class="form-input">
-				                <input type="password" class="Password" name="password" placeholder="{{ $langg->lang174 }}" required="">
-				                <i class="icofont-ui-password"></i>
-				              </div>
-				              <div class="form-forgot-pass">
-				                <div class="left">
-				                  <input type="checkbox" name="remember"  id="mrp1" {{ old('remember') ? 'checked' : '' }}>
-				                  <label for="mrp1">{{ $langg->lang175 }}</label>
-				                </div>
-				                <div class="right">
-				                  <a href="javascript:;" id="show-forgot1">
-				                    {{ $langg->lang176 }}
-				                  </a>
-				                </div>
-				              </div>
-				              <input type="hidden" name="modal"  value="1">
-				               <input type="hidden" name="vendor"  value="1">
-				              <input class="mauthdata" type="hidden"  value="{{ $langg->lang177 }}">
-				              <button type="submit" class="submit-btn">{{ $langg->lang178 }}</button>
-					              @if($socialsetting->f_check == 1 || $socialsetting->g_check == 1)
-					              <div class="social-area">
-					                  <h3 class="title">{{ $langg->lang179 }}</h3>
-					                  <p class="text">{{ $langg->lang180 }}</p>
-					                  <ul class="social-links">
-					                    @if($socialsetting->f_check == 1)
-					                    <li>
-					                      <a href="{{ route('social-provider','facebook') }}">
-					                        <i class="fab fa-facebook-f"></i>
-					                      </a>
-					                    </li>
-					                    @endif
-					                    @if($socialsetting->g_check == 1)
-					                    <li>
-					                      <a href="{{ route('social-provider','google') }}">
-					                        <i class="fab fa-google-plus-g"></i>
-					                      </a>
-					                    </li>
-					                    @endif
-					                  </ul>
-					              </div>
-					              @endif
-				            </form>
-				          </div>
-				        </div>
-					</div>
-					<div class="tab-pane fade" id="nav-reg11" role="tabpanel" aria-labelledby="nav-reg-tab">
-                <div class="login-area signup-area">
-                    <div class="login-form signup-form">
-                       @include('includes.admin.form-login')
-                        <form class="mregisterform" action="{{route('user-register-submit')}}" method="POST">
-                          {{ csrf_field() }}
-
-                          <div class="row">
-
-                          <div class="col-lg-6">
-                            <div class="form-input">
-                                <input type="text" class="User Name" name="name" placeholder="{{ $langg->lang182 }}" required="">
-                                <i class="icofont-user-alt-5"></i>
-                            	</div>
-                           </div>
-
-                           <div class="col-lg-6">
- <div class="form-input">
-                                <input type="email" class="User Name" name="email" placeholder="{{ $langg->lang183 }}" required="">
-                                <i class="icofont-email"></i>
+    <!-- VENDOR LOGIN MODAL -->
+    <div class="modal fade" id="vendor-login" tabindex="-1" role="dialog" aria-labelledby="vendor-login-Title" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered" style="transition: .5s;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <nav class="comment-log-reg-tabmenu">
+                        <div class="nav nav-tabs" id="nav-tab1" role="tablist">
+                            <a class="nav-item nav-link login active" id="nav-log-tab11" data-toggle="tab" href="#nav-log11" role="tab" aria-controls="nav-log" aria-selected="true">
+                                {{ $langg->lang234 }}
+                            </a>
+                            <a class="nav-item nav-link" id="nav-reg-tab11" data-toggle="tab" href="#nav-reg11" role="tab" aria-controls="nav-reg" aria-selected="false">
+                                {{ $langg->lang235 }}
+                            </a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-log11" role="tabpanel" aria-labelledby="nav-log-tab">
+                            <div class="login-area">
+                                <div class="login-form signin-form">
+                                    @include('includes.admin.form-login')
+                                    <form class="mloginform" action="{{ route('user.login.submit') }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <div class="form-input">
+                                            <input type="email" name="email" placeholder="{{ $langg->lang173 }}" required="">
+                                            <i class="icofont-user-alt-5"></i>
+                                        </div>
+                                        <div class="form-input">
+                                            <input type="password" class="Password" name="password" placeholder="{{ $langg->lang174 }}" required="">
+                                            <i class="icofont-ui-password"></i>
+                                        </div>
+                                        <div class="form-forgot-pass">
+                                            <div class="left">
+                                                <input type="checkbox" name="remember"  id="mrp1" {{ old('remember') ? 'checked' : '' }}>
+                                                <label for="mrp1">{{ $langg->lang175 }}</label>
+                                            </div>
+                                            <div class="right">
+                                                <a href="javascript:;" id="show-forgot1">
+                                                    {{ $langg->lang176 }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="modal"  value="1">
+                                        <input type="hidden" name="vendor"  value="1">
+                                        <input class="mauthdata" type="hidden"  value="{{ $langg->lang177 }}">
+                                        <button type="submit" class="submit-btn">{{ $langg->lang178 }}</button>
+                                        @if($socialsetting->f_check == 1 || $socialsetting->g_check == 1)
+                                            <div class="social-area">
+                                                <h3 class="title">{{ $langg->lang179 }}</h3>
+                                                <p class="text">{{ $langg->lang180 }}</p>
+                                                <ul class="social-links">
+                                                    @if($socialsetting->f_check == 1)
+                                                        <li>
+                                                            <a href="{{ route('social-provider','facebook') }}">
+                                                                <i class="fab fa-facebook-f"></i>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                    @if($socialsetting->g_check == 1)
+                                                        <li>
+                                                            <a href="{{ route('social-provider','google') }}">
+                                                                <i class="fab fa-google-plus-g"></i>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </div>
+                                        @endif
+                                    </form>
+                                </div>
                             </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-reg11" role="tabpanel" aria-labelledby="nav-reg-tab">
+                            <div class="login-area signup-area">
+                                <div class="login-form signup-form">
+                                @include('includes.admin.form-login')
+                                    <form class="mregisterform" action="{{route('user-register-submit')}}" method="POST">
+                                        {{ csrf_field() }}
 
-                           	</div>
-                           <div class="col-lg-6">
-    <div class="form-input">
-                                <input type="text" class="User Name" name="phone" placeholder="{{ $langg->lang184 }}" required="">
-                                <i class="icofont-phone"></i>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="text" class="User Name" name="name" placeholder="{{ $langg->lang182 }}" required="">
+                                                    <i class="icofont-user-alt-5"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="email" class="User Name" name="email" placeholder="{{ $langg->lang183 }}" required="">
+                                                    <i class="icofont-email"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="text" class="User Name" name="phone" placeholder="{{ $langg->lang184 }}" required="">
+                                                    <i class="icofont-phone"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="text" class="User Name" name="address" placeholder="{{ $langg->lang185 }}" required="">
+                                                    <i class="icofont-location-pin"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="text" class="User Name" name="shop_name" placeholder="{{ $langg->lang238 }}" required="">
+                                                    <i class="icofont-cart-alt"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="text" class="User Name" name="owner_name" placeholder="{{ $langg->lang239 }}" required="">
+                                                    <i class="icofont-cart"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="text" class="User Name" name="shop_number" placeholder="{{ $langg->lang240 }}" required="">
+                                                    <i class="icofont-shopping-cart"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="text" class="User Name" name="shop_address" placeholder="{{ $langg->lang241 }}" required="">
+                                                    <i class="icofont-opencart"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="text" class="User Name" name="reg_number" placeholder="{{ $langg->lang242 }}" required="">
+                                                    <i class="icofont-ui-cart"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="text" class="User Name" name="shop_message" placeholder="{{ $langg->lang243 }}" required="">
+                                                    <i class="icofont-envelope"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="password" class="Password" name="password" placeholder="{{ $langg->lang186 }}" required="">
+                                                    <i class="icofont-ui-password"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-input">
+                                                    <input type="password" class="Password" name="password_confirmation" placeholder="{{ $langg->lang187 }}" required="">
+                                                    <i class="icofont-ui-password"></i>
+                                                </div>
+                                            </div>
+
+                                            @if($gs->is_capcha == 1)
+                                                <div class="col-lg-6">
+                                                    <ul class="captcha-area">
+                                                        <li>
+                                                            <p>
+                                                                <img class="codeimg1" src="{{asset("assets/images/capcha_code.png")}}" alt=""> <i class="fas fa-sync-alt pointer refresh_code "></i>
+                                                            </p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <div class="form-input">
+                                                        <input type="text" class="Password" name="codes" placeholder="{{ $langg->lang51 }}" required="">
+                                                        <i class="icofont-refresh"></i>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            
+                                            <input type="hidden" name="vendor"  value="1">
+                                            <input class="mprocessdata" type="hidden"  value="{{ $langg->lang188 }}">
+                                            <button type="submit" class="submit-btn">{{ $langg->lang189 }}</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-
-                           	</div>
-                           <div class="col-lg-6">
-
-<div class="form-input">
-                                <input type="text" class="User Name" name="address" placeholder="{{ $langg->lang185 }}" required="">
-                                <i class="icofont-location-pin"></i>
-                            </div>
-                           	</div>
-
-                           <div class="col-lg-6">
- <div class="form-input">
-                                <input type="text" class="User Name" name="shop_name" placeholder="{{ $langg->lang238 }}" required="">
-                                <i class="icofont-cart-alt"></i>
-                            </div>
-
-                           	</div>
-                           <div class="col-lg-6">
-
- <div class="form-input">
-                                <input type="text" class="User Name" name="owner_name" placeholder="{{ $langg->lang239 }}" required="">
-                                <i class="icofont-cart"></i>
-                            </div>
-                           	</div>
-                           <div class="col-lg-6">
-
-<div class="form-input">
-                                <input type="text" class="User Name" name="shop_number" placeholder="{{ $langg->lang240 }}" required="">
-                                <i class="icofont-shopping-cart"></i>
-                            </div>
-                           	</div>
-                           <div class="col-lg-6">
-
- <div class="form-input">
-                                <input type="text" class="User Name" name="shop_address" placeholder="{{ $langg->lang241 }}" required="">
-                                <i class="icofont-opencart"></i>
-                            </div>
-                           	</div>
-                           <div class="col-lg-6">
-
-<div class="form-input">
-                                <input type="text" class="User Name" name="reg_number" placeholder="{{ $langg->lang242 }}" required="">
-                                <i class="icofont-ui-cart"></i>
-                            </div>
-                           	</div>
-                           <div class="col-lg-6">
-
- <div class="form-input">
-                                <input type="text" class="User Name" name="shop_message" placeholder="{{ $langg->lang243 }}" required="">
-                                <i class="icofont-envelope"></i>
-                            </div>
-                           	</div>
-
-                           <div class="col-lg-6">
-  <div class="form-input">
-                                <input type="password" class="Password" name="password" placeholder="{{ $langg->lang186 }}" required="">
-                                <i class="icofont-ui-password"></i>
-                            </div>
-
-                           	</div>
-                           <div class="col-lg-6">
- 								<div class="form-input">
-                                <input type="password" class="Password" name="password_confirmation" placeholder="{{ $langg->lang187 }}" required="">
-                                <i class="icofont-ui-password"></i>
-                            	</div>
-                           	</div>
-
-                            @if($gs->is_capcha == 1)
-
-<div class="col-lg-6">
-
-
-                            <ul class="captcha-area">
-                                <li>
-                                 	<p>
-                                 		<img class="codeimg1" src="{{asset("assets/images/capcha_code.png")}}" alt=""> <i class="fas fa-sync-alt pointer refresh_code "></i>
-                                 	</p>
-
-                                </li>
-                            </ul>
-
-
-</div>
-
-<div class="col-lg-6">
-
- <div class="form-input">
-                                <input type="text" class="Password" name="codes" placeholder="{{ $langg->lang51 }}" required="">
-                                <i class="icofont-refresh"></i>
-
-                            </div>
-
-
-
-                          </div>
-
-                          @endif
-
-				            <input type="hidden" name="vendor"  value="1">
-                            <input class="mprocessdata" type="hidden"  value="{{ $langg->lang188 }}">
-                            <button type="submit" class="submit-btn">{{ $langg->lang189 }}</button>
-
-                           	</div>
-
-
-
-
-                        </form>
+                        </div>
                     </div>
                 </div>
-					</div>
-				</div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-<!-- VENDOR LOGIN MODAL ENDS -->
+    <!-- VENDOR LOGIN MODAL ENDS -->
 
-<!-- Product Quick View Modal -->
+    <!-- Product Quick View Modal -->
+    <div class="modal fade" id="quickview" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog quickview-modal modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="submit-loader">
+                    <img src="{{asset('assets/images/'.$gs->loader)}}" alt="">
+                </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container quick-view-modal">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product Quick View Modal -->
 
-	  <div class="modal fade" id="quickview" tabindex="-1" role="dialog"  aria-hidden="true">
-		<div class="modal-dialog quickview-modal modal-dialog-centered modal-lg" role="document">
-		  <div class="modal-content">
-			<div class="submit-loader">
-				<img src="{{asset('assets/images/'.$gs->loader)}}" alt="">
-			</div>
-			<div class="modal-header">
-			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			  </button>
-			</div>
-			<div class="modal-body">
-				<div class="container quick-view-modal">
-
-				</div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-<!-- Product Quick View Modal -->
-
-<!-- Order Tracking modal Start-->
+    <!-- Order Tracking modal Start-->
     <div class="modal fade" id="track-order-modal" tabindex="-1" role="dialog" aria-labelledby="order-tracking-modal" aria-hidden="true">
         <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title"> <b>{{ $langg->lang772 }}</b> </h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                        <div class="order-tracking-content">
-                            <form id="track-form" class="track-form">
-                                {{ csrf_field() }}
-                                <input type="text" id="track-code" placeholder="{{ $langg->lang773 }}" required="">
-                                <button type="submit" class="mybtn1">{{ $langg->lang774 }}</button>
-                                <a href="#"  data-toggle="modal" data-target="#order-tracking-modal"></a>
-                            </form>
+                <div class="modal-header">
+                    <h6 class="modal-title"> <b>{{ $langg->lang772 }}</b> </h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="order-tracking-content">
+                        <form id="track-form" class="track-form">
+                            {{ csrf_field() }}
+                            <input type="text" id="track-code" placeholder="{{ $langg->lang773 }}" required="">
+                            <button type="submit" class="mybtn1">{{ $langg->lang774 }}</button>
+                            <a href="#"  data-toggle="modal" data-target="#order-tracking-modal"></a>
+                        </form>
+                    </div>
+                    <div>
+                        <div class="submit-loader d-none">
+                            <img src="{{asset('assets/images/'.$gs->loader)}}" alt="">
                         </div>
-
-                        <div>
-				            <div class="submit-loader d-none">
-								<img src="{{asset('assets/images/'.$gs->loader)}}" alt="">
-							</div>
-							<div id="track-order">
-
-							</div>
+                        <div id="track-order">
                         </div>
-
-            </div>
+                    </div>
+                </div>
             </div>
         </div>
-		
     </div>
-<!-- Order Tracking modal End -->
+    <!-- Order Tracking modal End -->
 
-<script type="text/javascript">
-  var mainurl = "{{url('/')}}";
-  var gs      = {!! json_encode(\App\Models\Generalsetting::first()->makeHidden(['stripe_key', 'stripe_secret', 'smtp_pass', 'instamojo_key', 'instamojo_token', 'paystack_key', 'paystack_email', 'paypal_business', 'paytm_merchant', 'paytm_secret', 'paytm_website', 'paytm_industry', 'paytm_mode', 'molly_key', 'razorpay_key', 'razorpay_secret'])) !!};
-  var langg    = {!! json_encode($langg) !!};
-</script>
+
+
+
+    <script type="text/javascript">
+        var mainurl = "{{url('/')}}";
+        var gs      = {!! json_encode(\App\Models\Generalsetting::first()->makeHidden(['stripe_key', 'stripe_secret', 'smtp_pass', 'instamojo_key', 'instamojo_token', 'paystack_key', 'paystack_email', 'paypal_business', 'paytm_merchant', 'paytm_secret', 'paytm_website', 'paytm_industry', 'paytm_mode', 'molly_key', 'razorpay_key', 'razorpay_secret'])) !!};
+        var langg    = {!! json_encode($langg) !!};
+    </script>
 
 	<!-- jquery -->
 	{{-- <script src="{{asset('assets/front/js/all.js')}}"></script> --}}
@@ -1123,5 +1073,4 @@
 	@yield('scripts')
 
 </body>
-
 </html>
