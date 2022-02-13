@@ -174,7 +174,12 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        ZanySoft\Zip\ZipServiceProvider::class,
     ],
 
     /*
@@ -226,7 +231,12 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Datatables' => yajra\Datatables\Datatables::class,
+        'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Zip' => ZanySoft\Zip\ZipFacade::class,
     ],
 
 ];
