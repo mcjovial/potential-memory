@@ -267,7 +267,7 @@ class CatalogController extends Controller
     // Capcha Code Image
     private function  code_image()
     {
-        $actual_path = str_replace('project','',base_path());
+        $actual_path = base_path('public/');
         $image = imagecreatetruecolor(200, 50);
         $background_color = imagecolorallocate($image, 255, 255, 255);
         imagefilledrectangle($image,0,0,200,50,$background_color);

@@ -1,6 +1,6 @@
 
 @php
-  $actual_path = str_replace('project','',base_path());
+  $actual_path = base_path('public/');
  if (is_dir($actual_path . '/install')) {
      echo '<meta http-equiv="refresh" content="0; url='.url('/install').'" />';
 
